@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Physics Simulator</title>
+
+    <!--  CSS -->
+    <link rel="stylesheet" type="text/css" href="display/css/main.css" media="screen" />
+
+    <!--  Mathjax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script> window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+    };
+        </script>
+
+<body>
+
+
+
+<!--Our World Scene goes Here!-->
+<div id="World">
+</div>
+
+<div id="info" >
+<!--    Can type info about the program here-->
+</div>
+
+    <div id="statsToggle"><p><b>+</b></p></div>
+    <div id="statsFolder"></div>
+
+</div>
+
+<p id="signature"><a href="http://www.stevejtrettel.site" > stevejtrettel</a> </p>
+
+<!-- Make the More Details Box Expandable-->
+<script src = "display/css/moreDetails.js"></script>
+
+
+<!-- Our Javscript Program -->
+
+<script  type="module">
+
+    //set the objects that will run in this simulation
+    import item from "./code/setup.js"
+    let objects = {...item};
+
+    let options = {
+        color: 0x343757,
+           // 0x2f508a,
+            //0x303030,
+    }
+
+    //the function which builds a world from the default template,
+    import { mainFromTemplate } from "./display/mainFromTemplate.js";
+    //call the function to run the app
+    mainFromTemplate(objects, options);
+
+</script>
+
+
+
+</body>
+</html>
