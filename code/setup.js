@@ -1,7 +1,7 @@
 
 import { randomVec3Ball } from "./utils/random.js";
-
 import {State} from "./Computation/State.js";
+
 import {DataList} from "./Computation/DataList.js";
 
 import {ConfigurationSpace} from "./ConfigurationSpace/ConfigurationSpace.js";
@@ -16,7 +16,7 @@ import { inhomogeneousPos } from "./AmbientSpace/ExampleSpaces/InhomogeneousPos.
 
 
 //set the ambient space for the project
-let ambientSpace = spherical;
+let ambientSpace = hyperbolic;
 
 //build a configuration space:
 let NumBalls = 30;
