@@ -148,3 +148,5 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/webstorm,macos
+.DS_Store
+3party/.DS_Store
