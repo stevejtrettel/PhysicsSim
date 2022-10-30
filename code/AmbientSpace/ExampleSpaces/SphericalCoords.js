@@ -177,8 +177,8 @@ let sphereObstacle = new Obstacle(
 
 
 //package stuff up for export
-let spherical = new AmbientSpace( sphSpace, sphModel, sphereObstacle);
+let sphericalCoords = new AmbientSpace( sphSpace, sphModel, sphereObstacle);
 
-export { spherical };
+export { sphericalCoords };
 
 

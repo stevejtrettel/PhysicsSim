@@ -13,7 +13,7 @@ class SpriteNode extends Node {
 		super();
 
 		this.color = new ColorNode( 0xEEEEEE );
-		this.spherical = true;
+		this.sphericalCoords = true;
 
 	}
 

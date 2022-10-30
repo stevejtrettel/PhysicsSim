@@ -2,7 +2,7 @@
 import {
     Mesh,
     MeshPhysicalMaterial,
-    Color
+    Color, DoubleSide
 } from "../../3party/three/build/three.module.js";
 
 
@@ -35,9 +35,11 @@ class RenderSim{
         this.radii = radii;
 
         let obstacleMat = new MeshPhysicalMaterial({
-            clearcoat:0.3,
+            roughness:0,
+            metalness:0,
             transmission:0.99,
-            ior:1.,
+            ior:1.5,
+            side: DoubleSide
         });
         this.obstacle = new Mesh(ambientSpace.obstacle.geometry, obstacleMat);
 

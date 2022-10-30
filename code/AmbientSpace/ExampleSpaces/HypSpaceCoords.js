@@ -13,7 +13,7 @@ import {Obstacle} from "../Components/Obstacle.js";
 import {AmbientSpace} from "../AmbientSpace.js";
 
 // -------------------------------------------------------------
-//some euclidean geometry stuff:
+//some geometry stuff:
 // -------------------------------------------------------------
 
 
@@ -52,7 +52,7 @@ function coords(pos){
 
 
 
-let hypMetricTensor = function(pos){
+let metricTensor = function(pos){
 
     let rho = pos.x;
     let gamma = pos.y;
@@ -74,7 +74,7 @@ let hypMetricTensor = function(pos){
 
 }
 
-let hypDistance = function(pos1, pos2){
+let distance = function(pos1, pos2){
 
     let u = coords(pos1);
     let v = coords(pos2);
@@ -82,7 +82,7 @@ let hypDistance = function(pos1, pos2){
     return hyperboloidDistance(u,v);
 }
 
-let hypChristoffel = function(state){
+let christoffel = function(state){
 
     let pos = state.pos;
     let vel = state.vel;
@@ -106,10 +106,10 @@ let hypChristoffel = function(state){
 }
 
 
-let hypSpace = new Geometry(
-    hypDistance,
-    hypMetricTensor,
-    hypChristoffel
+let space = new Geometry(
+    distance,
+    metricTensor,
+    christoffel
 );
 
 
@@ -142,10 +142,10 @@ let toPoincareBall = function(coord){
 let pbScaling = function(pos){
     let len2 = pos.clone().lengthSq();
     let scale = modelScale*modelScale - len2;
-    return 2.*scale/(modelScale*modelScale);
+    return 4.*scale/(modelScale*modelScale);
 }
 
-let hypModel = new Model(toPoincareBall,pbScaling);
+let model = new Model(toPoincareBall,pbScaling);
 
 
 
@@ -171,7 +171,7 @@ let rad = modelScale * Math.tanh(obstacleSize);
 
 let sphereGeom = new SphereBufferGeometry(rad, 64, 32);
 
-let sphereObstacle = new Obstacle(
+let obstacle = new Obstacle(
     distToSphere,
     sphereGeom
 );
@@ -183,7 +183,7 @@ let sphereObstacle = new Obstacle(
 
 
 //package stuff up for export
-let hyperbolic = new AmbientSpace( hypSpace, hypModel, sphereObstacle);
+let hyperbolic = new AmbientSpace( space, model, obstacle);
 
 export { hyperbolic };
 
