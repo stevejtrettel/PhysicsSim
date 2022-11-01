@@ -13,10 +13,10 @@ import { hyperbolic } from "./AmbientSpace/ExampleSpaces/HypSpacePoincareBall.js
 import { spherical } from "./AmbientSpace/ExampleSpaces/SphericalStereoProj.js";
 import { inhomogeneousNeg } from "./AmbientSpace/ExampleSpaces/InhomogeneousNeg.js";
 import { inhomogeneousPos } from "./AmbientSpace/ExampleSpaces/InhomogeneousPos.js";
-
+import { h2xe } from "./AmbientSpace/ExampleSpaces/H2xE.js";
 
 //set the ambient space for the project
-let ambientSpace = hyperbolic;
+let ambientSpace = h2xe;
 
 //build a configuration space:
 let NumBalls = 30;
