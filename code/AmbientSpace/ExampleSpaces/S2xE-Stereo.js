@@ -23,28 +23,23 @@ import {AmbientSpace} from "../AmbientSpace.js";
 
 
 
-//hyperboloid in R3
-function minkowskiDot(u,v){
-    return u.z*v.z - ( u.x*v.x + u.y*v.y );
-}
-
-//distance on hyperboloid:
+//distance on 2Sphere:
 //here u and V are 3D vectors
-function hyperboloidDistance(u,v){
-    return Math.acosh(Math.abs(minkowskiDot(u,v)));
+function sphericalDistance(u,v){
+    return Math.acos(u.dot(v));
 }
 
 
 
 
 //map from H2xE to the hyperboloid in R3
-//point pos = Vec3(x,y,z) with xy in Poincare Disk, z on real line
-function toHyperboloid(pos){
+//point pos = Vec3(x,y,z) with xy in Stereographic Proj (planar) Coords, z on real line
+function toSphere(pos){
 
     let diskPt = new Vector2(pos.x,pos.y);
     let len2 = diskPt.lengthSq();
-    let w = 1 + len2;
-    let p = new Vector3(2.*diskPt.x,2.*diskPt.y, w).divideScalar(1-len2);
+    let w = len2-1.;
+    let p = new Vector3(2.*diskPt.x,2.*diskPt.y, w).divideScalar(1 + len2);
 
     return p;
 }
@@ -64,7 +59,7 @@ function conformalFactor(pos){
 
     let diskPt = new Vector2(pos.x,pos.y);
     let r2 = diskPt.lengthSq();
-    let diff = 1-r2;
+    let diff = 1+r2;
     let diff2 = diff*diff;
 
     return  4./(diff2);
@@ -88,20 +83,20 @@ let metricTensor = function(pos){
 //measure distance between two Vec3s in the model
 let distance = function(pos1,pos2){
 
-    let u = toHyperboloid(pos1);
-    let v = toHyperboloid(pos2);
+    let u = toSphere(pos1);
+    let v = toSphere(pos2);
 
     let a = pos1.z;
     let b = pos2.z;
 
     //get hyperboloid Distance:
-    let hypDist = hyperboloidDistance(u,v);
+    let sphDist = sphericalDistance(u,v);
 
     //get euclidean distance
     let eucDist = Math.abs(b-a);
 
     //apply Pythagoras
-    let dist2 = hypDist*hypDist + eucDist*eucDist;
+    let dist2 = sphDist*sphDist + eucDist*eucDist;
 
     return Math.sqrt(dist2);
 }
@@ -122,7 +117,7 @@ let christoffel = function(state){
     let xP2 = xP*xP;
     let yP2 = yP*yP;
 
-    let denom = x*x + y*y -1;
+    let denom = 1 + x*x + y*y;
 
     let xPP = 2*x * ( xP2 - yP2 ) + 4 * xP * ( y*yP );
     let yPP = 2*y * ( yP2 - xP2 ) + 4 * yP * ( x*xP );
@@ -179,7 +174,7 @@ let model = new Model(coordsToModel, modelScaling);
 // -------------------------------------------------------------
 
 //a cylinder of radius R, height H
-let coordRad = 0.8;
+let coordRad = 1.2;
 let Rad = distance(new Vector3(0,0,0), new Vector3(coordRad,0,0));
 let Height = 3.;
 
@@ -190,17 +185,17 @@ let size = (Rad+Height)/2.;
 //minimum of the distance to cylinder walls and tops
 let distToCylinder = function(pos){
 
-    let u = toHyperboloid(pos);
-    let v = toHyperboloid(new Vector3(0,0,0));
+    let u = toSphere(pos);
+    let v = toSphere(new Vector3(0,0,0));
     let z = pos.z;
 
     //get hyperboloid Distance:
-    let hypDist = Rad - hyperboloidDistance(u,v);
+    let sphDist = Rad - sphericalDistance(u,v);
 
     //get Euclidean Distance to top/Bottom:
     let eucDist = Height/2-Math.abs(z);
 
-    return Math.min(hypDist,eucDist);
+    return Math.min(sphDist,eucDist);
 }
 
 
@@ -211,7 +206,7 @@ let cylGeom = new CylinderBufferGeometry(zoom*coordRad,zoom*coordRad,zoom*Height
 
 let generateState = function(){
 
-    let pos = randomVec3Sphere(0.7*coordRad);
+    let pos = randomVec3Sphere(0.5*coordRad);
     let scale = conformalFactor(pos);
     let vel = randomVec3Ball(3);
     vel.x = vel.x/scale;
@@ -233,6 +228,6 @@ let obstacle = new Obstacle(
 
 
 //package stuff up for export
-let h2xe = new AmbientSpace( space, model, obstacle);
+let s2xe = new AmbientSpace( space, model, obstacle);
 
-export { h2xe };
+export { s2xe };

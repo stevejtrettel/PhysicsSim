@@ -14,13 +14,14 @@ import { spherical } from "./AmbientSpace/ExampleSpaces/SphericalStereoProj.js";
 import { inhomogeneousNeg } from "./AmbientSpace/ExampleSpaces/InhomogeneousNeg.js";
 import { inhomogeneousPos } from "./AmbientSpace/ExampleSpaces/InhomogeneousPos.js";
 import { h2xe } from "./AmbientSpace/ExampleSpaces/H2xE.js";
+import { s2xe } from "./AmbientSpace/ExampleSpaces/S2xE-Stereo.js";
 
 //set the ambient space for the project
-let ambientSpace = h2xe;
+let ambientSpace = s2xe;
 
 //build a configuration space:
-let NumBalls = 30;
-let MaxRad = ambientSpace.obstacle.size/10.;
+let NumBalls = 3;
+let MaxRad = ambientSpace.obstacle.size/5.;
 
 let radii = [];
 let masses = [];
